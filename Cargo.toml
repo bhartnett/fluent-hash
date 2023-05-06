@@ -4,7 +4,7 @@ description = "A lightweight library which provides a fluent interface for gener
 version = "0.1.0"
 edition = "2021"
 license = "Apache-2.0"
-authors = ["Web3 Developer <no-reply@web3developer.io>"]
+authors = ["Web3 Developer @ Web3Developer.io"]
 documentation = "https://docs.rs/fluent-hash/"
 homepage = "https://github.com/web3-developer/fluent-hash"
 
