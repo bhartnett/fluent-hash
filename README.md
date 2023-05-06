@@ -21,4 +21,4 @@ Lives here:
 
 # License
 
-Rustls is distributed under the Apache License version 2.0.
+fluent-hash is distributed under the Apache License version 2.0.
