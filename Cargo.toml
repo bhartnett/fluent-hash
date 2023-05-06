@@ -1,7 +1,12 @@
 [package]
 name = "fluent-hash"
+description = "A lightweight library which provides a fluent interface for generating SHA-1 and SHA-2 digests."
 version = "0.1.0"
 edition = "2021"
+license = "Apache-2.0"
+authors = ["Web3 Developer <no-reply@web3developer.io>"]
+documentation = "https://docs.rs/fluent-hash/"
+homepage = "https://github.com/web3-developer/fluent-hash"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
