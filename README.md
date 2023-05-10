@@ -4,15 +4,15 @@ fluent-hash is a wrapper on top of the <a href = "https://github.com/briansmith/
 library which provides a fluent interface for generating SHA-1 and SHA-2 hashes. 
 
 It provides convenience methods for generating hashes from the following types:
-- &[u8]
-- Vec\<u8\>
-- &str
-- std::fs::File
+- `&[u8]`
+- `Vec<u8>`
+- `&str`
+- `std::fs::File`
 
 It also supports formatting hashes as bytes or hexadecimal.
 
-### Supported Hash Algorithms
-The following SHA-1 and SHA2 algorithms are supported:
+## Supported Hash Algorithms
+The following SHA-1 and SHA-2 algorithms are supported:
 - SHA-1 
 - SHA-256 
 - SHA-384

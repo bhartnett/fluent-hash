@@ -15,22 +15,22 @@
 //! A lightweight library which provides a fluent interface for generating SHA-1 and SHA-2 digests.
 
 use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Error};
 use ring::digest as r_digest;
 
 
-/// The hashing algorithm. SHA-1 and SHA2 algorithms are supported.
+/// The hashing algorithm. SHA-1 and SHA-2 algorithms are supported.
 #[derive(Debug, Eq, PartialEq)]
 pub enum Hashing {
-    /// The SHA1 hash algorithm. Should generally be avoided unless working with legacy software.
+    /// The SHA-1 hash algorithm. Should generally be avoided unless working with legacy software.
     Sha1,
-    /// The SHA2 256 bit hash algorithm.
+    /// The SHA-2 256 bit hash algorithm.
     Sha256,
-    /// The SHA2 384 bit hash algorithm.
+    /// The SHA-2 384 bit hash algorithm.
     Sha384,
-    /// The SHA2 512 bit hash algorithm.
+    /// The SHA-2 512 bit hash algorithm.
     Sha512,
-    /// The SHA2 512-256 bit hash algorithm. Uses SHA-512 but returns only 256 bits.
+    /// The SHA-2 512_256 bit hash algorithm. Uses SHA-512 but returns only 256 bits.
     Sha512_256,
 }
 
@@ -71,11 +71,10 @@ impl Hashing {
         self.hash(data.as_ref())
     }
 
-    /// Returns a `Hash` of the file located at the given path.
-    /// Fails if the file doesn't exist or can't be opened.
-    pub fn hash_file(&self, path: &str) -> Hash {
-        // TODO: improve the error handling here to allow catching errors without panic
-        let file = File::open(path).expect(&format!("Failed to open file with path: {}", path));
+    /// Returns a `Result<Hash, Error>` containing the `Hash` of the file located at the given path on success,
+    /// otherwise returns a `std::io::Error` if the file doesn't exist or can't be opened in read-only mode.
+    pub fn hash_file(&self, path: &str) -> Result<Hash, Error> {
+        let file = File::open(path)?;
         let reader = BufReader::new(file);
 
         let mut ctx = self.new_context();
@@ -83,7 +82,7 @@ impl Hashing {
             ctx.update(line.unwrap().as_bytes());
         }
 
-        ctx.finish()
+        Ok(ctx.finish())
     }
 
 }
@@ -144,6 +143,7 @@ impl Hash {
 // Tests
 #[cfg(test)]
 mod tests {
+
     use super::*;
     use crate::Hashing::{Sha1, Sha256, Sha384, Sha512, Sha512_256};
     use std::fs::File;
@@ -250,11 +250,22 @@ mod tests {
         create_test_file();
 
         let expected = r_digest::digest(&r_digest::SHA256, DATA_TO_DIGEST);
-        let result = Sha256.hash_file(FILE_NAME);
+        let result = Sha256.hash_file(FILE_NAME).unwrap();
 
         assert_eq!(result.as_bytes(), expected.as_ref());
         assert_eq!(result.to_vec(), expected.as_ref().to_vec());
         assert_eq!(result.to_hex(), expected.encode_hex::<String>());
+    }
+
+    #[test]
+    //#[should_panic]
+    fn sha256_digest_file_error() {
+        let result = Sha256.hash_file("notfound.txt");
+        let e = match result {
+            Ok(_) => panic!("Test should fail"),
+            Err(e) => e
+        };
+        assert_eq!(e.to_string(), "No such file or directory (os error 2)");
     }
 
 }
