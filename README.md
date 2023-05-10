@@ -53,7 +53,7 @@ let result: Hash = Sha256.hash_str("hello, world");
 
 Hash a file.
 ```rust
-let result: Hash = Sha256.hash_file("file.txt");
+let result: Hash = Sha256.hash_file("file.txt")?;
 ```
 
 Format the hash.
@@ -63,6 +63,7 @@ let bytes_vec: Vec<u8> = result.to_vec();
 let hex: String = result.to_hex();
 ```
 
+See the Web3 Developer blog post which shows more fluent-hash usage examples here: https://web3developer.io/introducing-fluent-hash/
 
 ## License
 fluent-hash is distributed under the Apache License version 2.0.
