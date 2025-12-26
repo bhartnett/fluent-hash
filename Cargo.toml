@@ -1,7 +1,7 @@
 [package]
 name = "fluent-hash"
 description = "A lightweight library which provides a fluent interface for generating SHA-1 and SHA-2 digests."
-version = "0.2.3"
+version = "0.2.4"
 edition = "2021"
 license = "Apache-2.0"
 authors = ["Web3 Developer @ Web3Developer.io"]
@@ -13,4 +13,4 @@ categories = ["cryptography"]
 
 [dependencies]
 hex = "0.4.3"
-ring = "0.17.6"
+ring = "0.17.14"
